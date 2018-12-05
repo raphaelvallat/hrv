@@ -50,7 +50,7 @@ class RRi:
         if inplace:
             self.__time -= self.time[0]
         else:
-            return RRi(self.rri, time=self.time-self.time[0])
+            return RRi(self.rri, time=self.time - self.time[0])
 
     def plot(self, *args, **kwargs):
         fig, ax = plt.subplots(1, 1)
@@ -174,6 +174,7 @@ class RRiDescription(MutableMapping):
 
         return descr
 
+
 def _prepare_table(rri):
     def _amplitude(values):
         return values.max() - values.min()
@@ -192,6 +193,7 @@ def _prepare_table(rri):
     table.append(['amplitude', rri.amplitude(), _amplitude(hr)])
 
     return [header] + table
+
 
 def _validate_rri(rri):
     rri = np.array(rri, dtype=np.float64)
@@ -212,9 +214,8 @@ def _validate_time(rri, time):
         raise ValueError('rri and time series must have the same length')
 
     if any(time[1:] == 0):
-        raise ValueError(
-                'time series cannot have 0 values after first position'
-        )
+        err = 'time series cannot have 0 values after first position'
+        raise ValueError(err)
 
     if not all(np.diff(time) > 0):
         raise ValueError('time series must be monotonically increasing')

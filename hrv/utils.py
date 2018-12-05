@@ -1,25 +1,7 @@
 # coding: utf-8
-from numbers import Number
-
 import numpy as np
+from numbers import Number
 from scipy import interpolate
-
-# TODO: Remove unused functions
-
-
-# def _identify_rri_file_type(file_content):
-#     is_hrm_file = file_content.find('[HRData]')
-#     if is_hrm_file >= 0:
-#         file_type = 'hrm'
-#     else:
-#         rri_lines = file_content.split('\n')
-#         for line in rri_lines:
-#             current_line_number = re.findall(r'\d+', line)
-#             if current_line_number:
-#                 if not current_line_number[0] == line.strip():
-#                     raise FileNotSupportedError('Text file not supported')
-#         file_type = 'text'
-#     return file_type
 
 
 # TODO: Refactor validation decorator

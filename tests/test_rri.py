@@ -3,12 +3,8 @@ from collections import MutableMapping
 import numpy as np
 import pytest
 
-from hrv.rri import (RRi,
-                    _validate_rri,
-                    _create_time_array,
-                    _validate_time,
-                    _prepare_table,
-                    RRiDescription)
+from hrv.rri import (RRi, _validate_rri, _create_time_array, _validate_time,
+                     _prepare_table)
 from tests.test_utils import FAKE_RRI
 
 
@@ -23,10 +19,8 @@ class TestRRiClassArguments:
         validated_rri = _validate_rri(rri_in_seconds)
 
         assert isinstance(validated_rri, np.ndarray)
-        np.testing.assert_array_equal(
-                _validate_rri(rri_in_seconds),
-                [800, 900, 1200]
-        )
+        np.testing.assert_array_equal(_validate_rri(rri_in_seconds),
+                                      [800, 900, 1200])
 
     def test_rri_values(self):
         rri = RRi(FAKE_RRI).values
@@ -66,8 +60,8 @@ class TestRRiClassArguments:
         with pytest.raises(ValueError):
             RRi(FAKE_RRI, [1, 2, 3])
 
-        assert e.value.args[0] == (
-                'rri and time series must have the same length')
+        msg = 'rri and time series must have the same length'
+        assert e.value.args[0] == msg
 
     def test_rri_and_time_have_same_length_in_class_construction(self):
         rri = RRi(FAKE_RRI, [1, 2, 3, 4])
@@ -78,16 +72,15 @@ class TestRRiClassArguments:
         with pytest.raises(ValueError) as e:
             _validate_time(FAKE_RRI, [1, 2, 0, 3])
 
-        assert e.value.args[0] == (
-                'time series cannot have 0 values after first position')
+        msg = 'time series cannot have 0 values after first position'
+        assert e.value.args[0] == msg
 
     def test_time_is_monotonically_increasing(self):
         with pytest.raises(ValueError) as e:
             _validate_time(FAKE_RRI, [0, 1, 4, 3])
 
-        assert e.value.args[0] == (
-                'time series must be monotonically increasing'
-        )
+        msg = 'time series must be monotonically increasing'
+        assert e.value.args[0] == msg
 
     def test_time_series_have_no_negative_values(self):
         with pytest.raises(ValueError) as e:
@@ -122,8 +115,8 @@ class TestRRiClassArguments:
         rri = RRi(range(1, 100000))
 
         assert rri.__repr__() == (
-                'RRi array([1.0000e+00, 2.0000e+00, 3.0000e+00, ..., '
-                '9.9997e+04, 9.9998e+04,\n       9.9999e+04])'
+            'RRi array([1.0000e+00, 2.0000e+00, 3.0000e+00, ..., '
+            '9.9997e+04, 9.9998e+04,\n       9.9999e+04])'
         )
 
     def test__mul__method(self):
@@ -220,19 +213,19 @@ class TestRRiClassMethods:
     def test_rri_statistical_values(self):
         rri = RRi(FAKE_RRI)
 
-        np.testing.assert_array_equal(rri.mean(),  np.mean(FAKE_RRI))
-        np.testing.assert_array_equal(rri.var(),  np.var(FAKE_RRI))
-        np.testing.assert_array_equal(rri.std(),  np.std(FAKE_RRI))
-        np.testing.assert_array_equal(rri.median(),  np.median(FAKE_RRI))
-        np.testing.assert_array_equal(rri.max(),  np.max(FAKE_RRI))
-        np.testing.assert_array_equal(rri.min(),  np.min(FAKE_RRI))
+        np.testing.assert_array_equal(rri.mean(), np.mean(FAKE_RRI))
+        np.testing.assert_array_equal(rri.var(), np.var(FAKE_RRI))
+        np.testing.assert_array_equal(rri.std(), np.std(FAKE_RRI))
+        np.testing.assert_array_equal(rri.median(), np.median(FAKE_RRI))
+        np.testing.assert_array_equal(rri.max(), np.max(FAKE_RRI))
+        np.testing.assert_array_equal(rri.min(), np.min(FAKE_RRI))
         np.testing.assert_array_equal(
-                rri.amplitude(),
-                np.max(FAKE_RRI) - np.min(FAKE_RRI),
+            rri.amplitude(),
+            np.max(FAKE_RRI) - np.min(FAKE_RRI),
         )
         np.testing.assert_array_equal(
-                rri.rms(),
-                np.sqrt(np.mean(np.square(FAKE_RRI))),
+            rri.rms(),
+            np.sqrt(np.mean(np.square(FAKE_RRI))),
         )
 
     def test_prepare_rri_description_table(self):
@@ -240,14 +233,14 @@ class TestRRiClassMethods:
 
         descr_table = _prepare_table(rri)
         expected = [
-                ['', 'rri', 'hr'],
-                ['min', 750.0, 73.61963190184049],
-                ['max', 815.0, 80.0],
-                ['amplitude', 65.0, 6.380368098159508],
-                ['mean', 793.75, 75.67342649397864],
-                ['median', 805.0, 74.53703703703704],
-                ['var', 667.1875, 6.487185483887203],
-                ['std', 25.829972899714782, 2.546995383562209],
+            ['', 'rri', 'hr'],
+            ['min', 750.0, 73.61963190184049],
+            ['max', 815.0, 80.0],
+            ['amplitude', 65.0, 6.380368098159508],
+            ['mean', 793.75, 75.67342649397864],
+            ['median', 805.0, 74.53703703703704],
+            ['var', 667.1875, 6.487185483887203],
+            ['std', 25.829972899714782, 2.546995383562209],
         ]
 
         for row in descr_table:
@@ -259,26 +252,26 @@ class TestRRiClassMethods:
 
         assert isinstance(rri_descr, MutableMapping)
         expected = [
-                ['', 'rri', 'hr'],
-                ['min', 750.0, 73.61963190184049],
-                ['max', 815.0, 80.0],
-                ['amplitude', 65.0, 6.380368098159508],
-                ['mean', 793.75, 75.67342649397864],
-                ['median', 805.0, 74.53703703703704],
-                ['var', 667.1875, 6.487185483887203],
-                ['std', 25.829972899714782, 2.546995383562209],
+            ['', 'rri', 'hr'],
+            ['min', 750.0, 73.61963190184049],
+            ['max', 815.0, 80.0],
+            ['amplitude', 65.0, 6.380368098159508],
+            ['mean', 793.75, 75.67342649397864],
+            ['median', 805.0, 74.53703703703704],
+            ['var', 667.1875, 6.487185483887203],
+            ['std', 25.829972899714782, 2.546995383562209],
         ]
         expected__repr__ = (
-                '----------------------------------------\n',
-                '                   rri          hr\n',
-                '----------------------------------------\n',
-                'min             750.00       73.62\n',
-                'max             815.00       80.00\n',
-                'mean            793.75       75.67\n',
-                'var             667.19        6.49\n',
-                'std              25.83        2.55\n',
-                'median          805.00       74.54\n',
-                'amplitude        65.00        6.38\n'
+            '----------------------------------------\n',
+            '                   rri          hr\n',
+            '----------------------------------------\n',
+            'min             750.00       73.62\n',
+            'max             815.00       80.00\n',
+            'mean            793.75       75.67\n',
+            'var             667.19        6.49\n',
+            'std              25.83        2.55\n',
+            'median          805.00       74.54\n',
+            'amplitude        65.00        6.38\n'
         )
 
         for field in expected[1:]:

@@ -21,7 +21,7 @@ class TimeDomainIndexesTestCase(unittest.TestCase):
                     'sdnn': 29.82,
                     'nn50': 1,
                     'pnn50': 25,
-                    'mrri':  793.75,
+                    'mrri': 793.75,
                     'mhr': 75.67}
         np.testing.assert_almost_equal(sorted(response.values()),
                                        sorted(expected.values()),
@@ -35,7 +35,7 @@ class TimeDomainIndexesTestCase(unittest.TestCase):
                     'sdnn': 29.82,
                     'nn50': 1,
                     'pnn50': 25,
-                    'mrri':  793.75,
+                    'mrri': 793.75,
                     'mhr': 75.67}
         np.testing.assert_almost_equal(sorted(response.values()),
                                        sorted(expected.values()),
@@ -66,7 +66,7 @@ class FrequencyDomainTestCase(unittest.TestCase):
         response = frequency_domain(self.real_rri, time=time, fs=4,
                                     method='welch', nperseg=256, noverlap=128,
                                     window='hanning')
-        expected = {'total_power':  3602.89,
+        expected = {'total_power': 3602.89,
                     'vlf': 844.5,
                     'lf': 1343.50,
                     'hf': 1414.88,

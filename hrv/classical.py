@@ -44,7 +44,7 @@ def frequency_domain(rri, time=None, fs=4.0, method='welch',
     if method == 'welch':
         fxx, pxx = welch(x=rri, fs=fs, **kwargs)
     elif method == 'ar':
-        fxx, pxx = _calc_pburg_psd(rri=rri,  fs=fs, **kwargs)
+        fxx, pxx = _calc_pburg_psd(rri=rri, fs=fs, **kwargs)
 
     return _auc(fxx, pxx, vlf_band, lf_band, hf_band)
 

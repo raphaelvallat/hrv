@@ -1,40 +1,39 @@
-from setuptools import setup, find_packages
-from codecs import open
-from os import path
+DESCRIPTION = "A python package for heart rate variability analysis"
+DISTNAME = 'hrv'
+MAINTAINER = 'Rhenan Bartels'
+MAINTAINER_EMAIL = 'rhenan.bartels@gmail.com'
+URL = 'https://github.com/rhenanbartels/hrv'
+LICENSE = 'BSD'
+DOWNLOAD_URL = 'https://github.com/rhenanbartels/hrv'
+INSTALL_REQUIRES = ['numpy', 'scipy', 'spectrum']
+VERSION = '0.1.5'
 
-__version__ = '0.1.5'
+try:
+    from setuptools import setup
+    _has_setuptools = True
+except ImportError:
+    from distutils.core import setup
 
-here = path.abspath(path.dirname(__file__))
+if __name__ == "__main__":
 
-# Get the long description from the README file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
-
-# get the dependencies and installs
-with open(path.join(here, 'requirements.txt'), encoding='utf-8') as f:
-    all_reqs = f.read().split('\n')
-
-install_requires = [x.strip() for x in all_reqs if 'git+' not in x]
-dependency_links = [x.strip().replace('git+', '') for x in all_reqs if x.startswith('git+')]
-
-setup(
-    name='hrv',
-    version=__version__,
-    description='A python package for heart rate variability analysis',
-    long_description=long_description,
-    url='https://github.com/rhenanbartels/hrv',
-    download_url='https://github.com/rhenanbartels/hrv/tarball/' + __version__,
-    license='BSD',
-    classifiers=[
-      'Development Status :: 3 - Alpha',
-      'Intended Audience :: Developers',
-      'Programming Language :: Python :: 3',
-    ],
-    keywords='',
-    packages=find_packages(exclude=['docs', 'tests*']),
-    include_package_data=True,
-    author='Rhenan Bartels',
-    install_requires=install_requires,
-    dependency_links=dependency_links,
-    author_email='rhenan.bartels@gmail.com'
-)
+    setup(name=DISTNAME,
+          author=MAINTAINER,
+          author_email=MAINTAINER_EMAIL,
+          maintainer=MAINTAINER,
+          maintainer_email=MAINTAINER_EMAIL,
+          description=DESCRIPTION,
+          license=LICENSE,
+          url=URL,
+          version=VERSION,
+          download_url=DOWNLOAD_URL,
+          install_requires=INSTALL_REQUIRES,
+          include_package_data=True,
+          packages=['hrv'],
+          classifiers=[
+              'Intended Audience :: Science/Research',
+              'Programming Language :: Python :: 3.6',
+              'License :: OSI Approved :: BSD License',
+              'Operating System :: POSIX',
+              'Operating System :: Unix',
+              'Operating System :: MacOS'],
+          )

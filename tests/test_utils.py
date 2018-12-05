@@ -45,7 +45,7 @@ class InterpolationTestCase(unittest.TestCase):
 
         rrix = _interp_linear(rri, time, fs)
         expected = [
-            800., 802.5, 805., 807.5, 810., 805., 800., 795.,  790., 796.25,
+            800., 802.5, 805., 807.5, 810., 805., 800., 795., 790., 796.25,
             802.5, 808.75, 815.
         ]
 

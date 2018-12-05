@@ -27,14 +27,9 @@ def read_from_hrm(pathname):
             raise EmptyFileError('empty file!')
         else:
             rri = np.array(
-                    list(
-                        map(
-                            float,
-                            re.findall(r'\d+', file_content[rri_info_index:-1])
-                        )
-                    ),
-                    dtype=np.float64
-            )
+                list(map(float, re.findall(r'\d+',
+                         file_content[rri_info_index:-1]))),
+                dtype=np.float64)
             if len(rri) == 0:
                 raise EmptyFileError('empty file!')
 
