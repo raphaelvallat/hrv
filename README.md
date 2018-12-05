@@ -113,7 +113,7 @@ from hrv.utils import open_rri
 rri = open_rri('path/to/file.txt')
 results = frequency_domain(
     rri=rri,
-    fs=4.0,
+    sf=4.0,
     method='welch',
     interp_method='cubic',
     detrend='linear'

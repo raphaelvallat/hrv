@@ -31,7 +31,7 @@ def _pnn50(rri):
 
 
 # TODO: create nperseg, noverlap and detrend arguments
-def frequency_domain(rri, time=None, fs=4.0, method='welch',
+def frequency_domain(rri, time=None, sf=4.0, method='welch',
                      interp_method='cubic', vlf_band=(0, 0.04),
                      lf_band=(0.04, 0.15), hf_band=(0.15, 0.4), **kwargs):
 
@@ -39,12 +39,12 @@ def frequency_domain(rri, time=None, fs=4.0, method='welch',
         time = rri.time
 
     if interp_method is not None:
-        rri = _interpolate_rri(rri, time, fs, interp_method)
+        rri = _interpolate_rri(rri, time, sf, interp_method)
 
     if method == 'welch':
-        fxx, pxx = welch(x=rri, fs=fs, **kwargs)
+        fxx, pxx = welch(x=rri, fs=sf, **kwargs)
     elif method == 'ar':
-        fxx, pxx = _calc_pburg_psd(rri=rri, fs=fs, **kwargs)
+        fxx, pxx = _calc_pburg_psd(rri=rri, sf=sf, **kwargs)
 
     return _auc(fxx, pxx, vlf_band, lf_band, hf_band)
 
@@ -66,8 +66,8 @@ def _auc(fxx, pxx, vlf_band, lf_band, hf_band):
                     'hfnu'], [total_power, vlf, lf, hf, lf_hf, lfnu, hfnu]))
 
 
-def _calc_pburg_psd(rri, fs, order=16, nfft=None):
-    burg = pburg(data=rri, order=order, NFFT=nfft, sampling=fs)
+def _calc_pburg_psd(rri, sf, order=16, nfft=None):
+    burg = pburg(data=rri, order=order, NFFT=nfft, sampling=sf)
     burg.scale_by_freq = False
     burg()
     return np.array(burg.frequencies()), burg.psd

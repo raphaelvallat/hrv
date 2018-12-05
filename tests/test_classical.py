@@ -63,7 +63,7 @@ class FrequencyDomainTestCase(unittest.TestCase):
     def test_frequency_domain_with_welch_method(self):
         time = np.cumsum(self.real_rri) / 1000.0
         time -= time[0]
-        response = frequency_domain(self.real_rri, time=time, fs=4,
+        response = frequency_domain(self.real_rri, time=time, sf=4,
                                     method='welch', nperseg=256, noverlap=128,
                                     window='hanning')
         expected = {'total_power': 3602.89,
@@ -96,7 +96,7 @@ class FrequencyDomainTestCase(unittest.TestCase):
 
     @mock.patch('hrv.classical.pburg')
     def test_pburg_method_being_called(self, _pburg):
-        _calc_pburg_psd(rri=[1, 2, 3], fs=4.0)
+        _calc_pburg_psd(rri=[1, 2, 3], sf=4.0)
         _pburg.assert_called_once_with(data=[1, 2, 3], NFFT=None, sampling=4.0,
                                        order=16)
 
@@ -108,14 +108,14 @@ class FrequencyDomainTestCase(unittest.TestCase):
         fake_rri = [1, 2, 3, 4]
         _irr.return_value = fake_rri
         _pburg_psd.return_value = (np.array([1, 2]), np.array([3, 4]))
-        frequency_domain(fake_rri, fs=4, method='ar', interp_method='cubic',
+        frequency_domain(fake_rri, sf=4, method='ar', interp_method='cubic',
                          order=16)
 
-        _pburg_psd.assert_called_once_with(rri=fake_rri, fs=4, order=16)
+        _pburg_psd.assert_called_once_with(rri=fake_rri, sf=4, order=16)
 
     def test_calc_pburg_psd_returns_numpy_arrays(self):
         fake_rri = list(range(20))
-        fxx, pxx = _calc_pburg_psd(fake_rri, fs=4.0)
+        fxx, pxx = _calc_pburg_psd(fake_rri, sf=4.0)
 
         self.assertIsInstance(fxx, np.ndarray)
         self.assertIsInstance(pxx, np.ndarray)
@@ -126,7 +126,7 @@ class FrequencyDomainTestCase(unittest.TestCase):
         the average value of the estimated psd of the marple_data.
         It must be approximately equal to 0.40.
         """
-        fxx, pxx = _calc_pburg_psd(marple_data, fs=1.0)
+        fxx, pxx = _calc_pburg_psd(marple_data, sf=1.0)
 
         np.testing.assert_almost_equal(np.mean(pxx), 0.400, decimal=2)
 

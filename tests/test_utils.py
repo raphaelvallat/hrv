@@ -27,9 +27,9 @@ class InterpolationTestCase(unittest.TestCase):
     def test_interpolate_rri_spline_cubic(self):
         rri = [800, 810, 790, 815]
         time = [0, 1, 2, 3]
-        fs = 4.0
+        sf = 4.0
 
-        rrix = _interp_cubic_spline(rri, time, fs)
+        rrix = _interp_cubic_spline(rri, time, sf)
         expected = [
             800., 809.4140625, 813.4375, 813.2421875, 810.,
             804.8828125, 799.0625, 793.7109375, 790., 789.1015625,
@@ -41,9 +41,9 @@ class InterpolationTestCase(unittest.TestCase):
     def test_interpolate_rri_spline_linear(self):
         rri = [800, 810, 790, 815]
         time = [0, 1, 2, 3]
-        fs = 4.0
+        sf = 4.0
 
-        rrix = _interp_linear(rri, time, fs)
+        rrix = _interp_linear(rri, time, sf)
         expected = [
             800., 802.5, 805., 807.5, 810., 805., 800., 795., 790., 796.25,
             802.5, 808.75, 815.

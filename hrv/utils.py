@@ -27,10 +27,10 @@ def _transform_rri(rri):
 
 # TODO: Refactor validation decorator
 def validate_frequency_domain_arguments(func):
-    def _check_frequency_domain_arguments(rri, fs=4.0, method='welch',
+    def _check_frequency_domain_arguments(rri, sf=4.0, method='welch',
                                           interp_method='cubic', **kwargs):
         _validate_available_methods(method)
-        return func(rri, fs, method, interp_method, **kwargs)
+        return func(rri, sf, method, interp_method, **kwargs)
 
     def _validate_available_methods(method):
         available_methods = ('welch', 'ar')
@@ -52,26 +52,26 @@ def _transform_rri_to_miliseconds(rri):
     return rri
 
 
-def _interpolate_rri(rri, time, fs=4, interp_method='cubic'):
+def _interpolate_rri(rri, time, sf=4, interp_method='cubic'):
     if interp_method == 'cubic':
-        return _interp_cubic_spline(rri, time, fs)
+        return _interp_cubic_spline(rri, time, sf)
     elif interp_method == 'linear':
-        return _interp_linear(rri, time, fs)
+        return _interp_linear(rri, time, sf)
 
 
-def _interp_cubic_spline(rri, time, fs):
-    time_rri_interp = _create_interp_time(time, fs)
+def _interp_cubic_spline(rri, time, sf):
+    time_rri_interp = _create_interp_time(time, sf)
     tck = interpolate.splrep(time, rri, s=0)
     rri_interp = interpolate.splev(time_rri_interp, tck, der=0)
     return rri_interp
 
 
-def _interp_linear(rri, time, fs):
-    time_rri_interp = _create_interp_time(time, fs)
+def _interp_linear(rri, time, sf):
+    time_rri_interp = _create_interp_time(time, sf)
     rri_interp = np.interp(time_rri_interp, time, rri)
     return rri_interp
 
 
-def _create_interp_time(time, fs):
-    time_resolution = 1 / float(fs)
+def _create_interp_time(time, sf):
+    time_resolution = 1 / float(sf)
     return np.arange(0, time[-1] + time_resolution, time_resolution)
