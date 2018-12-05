@@ -1,8 +1,7 @@
 # coding: utf-8
 import numpy as np
-
-from scipy.signal import welch
 from spectrum import pburg
+from scipy.signal import welch
 
 from hrv.rri import RRi
 from hrv.utils import (validate_rri, _interpolate_rri)
